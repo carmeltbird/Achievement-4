@@ -1,1 +1,174 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# # IMPORT products.csv  orders_wrangled.csv
+
+# In[2]:
+
+
+import pandas as pd
+import numpy as np
+import os
+
+
+# In[4]:
+
+
+df_prods=pd.read_csv(r'/Users/carmeltbird/Desktop/Achievement4/02 Data copy/Original Data/products.csv',index_col=False)
+
+
+# In[6]:
+
+
+df_ords=pd.read_csv(r'/Users/carmeltbird/Desktop/Achievement4/02 Data copy/Prepared Data/orders_wrangled.csv',index_col=False)
+
+
+# In[33]:
+
+
+df_ords.describe()
+
+
+# In[8]:
+
+
+##nothing stands out for me here
+
+
+# ### DATA FRAME
+
+# In[37]:
+
+
+df_test = pd. DataFrame ()
+
+
+# In[39]:
+
+
+df_test[ 'mix'] = ['a', 'b', 1, True]
+
+
+# In[41]:
+
+
+df_test.head ()
+
+
+# In[49]:
+
+
+#Check for mixed types
+
+for col in df_test.columns.tolist():
+  weird = (df_test[[col]].applymap(type) != df_test[[col]].iloc[0].apply(type)).any(axis = 1)
+  if len (df_test[weird]) > 0:
+    print (col)
+
+
+# In[45]:
+
+
+df_test['mix'] = df_test['mix'].astype('str')
+
+
+# In[47]:
+
+
+df_prods.isnull().sum()
+
+
+# In[131]:
+
+
+df_nan = df_prods[df_prods['product_name'].isnull()==True]
+
+
+# In[133]:
+
+
+df_nan
+
+
+# In[177]:
+
+
+df_nan.describe()
+
+
+#  ##There a few ways to deal with missing data:
+#     "1)  Create a new variable that acts like a flag based on the missing value.
+#     "2) Impute the value with the mean or median of the column (if the variable is numeric)
+#     "3) Remove or filter out the missing data."
+#    
+
+# # When using the mean 
+# df['column with missings'].fillna(mean value, inplace=True)
+
+# df['column with missings'].fillna(median value, inplace=True)
+
+# In[63]:
+
+
+df_prods.shape
+
+
+# In[65]:
+
+
+df_prods_clean=df_prods[df_prods['product_name'].isnull()==False]
+
+
+# In[67]:
+
+
+df_prods_clean.shape
+
+
+# In[69]:
+
+
+df_prods.dropna(inplace=True)
+
+
+# #command for finding duplicates in your dataframe
+
+# In[77]:
+
+
+df_dups=df_prods_clean[df_prods_clean.duplicated()]
+
+
+# In[79]:
+
+
+df_dups
+
+
+# #addressing duplicates
+# 
+
+# In[91]:
+
+
+df_prods_clean.shape
+
+
+# In[93]:
+
+
+df_prods_clean_no_dups=df_prods_clean.drop_duplicates()
+
+
+# In[95]:
+
+
+df_prods_clean_no_dups.shape
+
+
+# In[ ]:
+
+
+
+
 
